@@ -23,5 +23,50 @@ children:
   - /verifying-your-custom-domain-for-github-pages
   - /troubleshooting-custom-domains-and-github-pages
 shortTitle: Configure a custom domain
----
+let adsWatched = localStorage.getItem('adsCount') || 0;
+const maxAds = 5;
+
+// Dummy Ads دکھائیں
+function showAd() {
+    const adContainer = document.getElementById("adContainer");
+    adContainer.innerHTML = `
+        <div class="loader"></div>
+        <p>Ad لوڈ ہو رہا ہے...</p>
+    `;
+
+    // 5 سیکنڈ بعد Ad مکمل ہوگا
+    setTimeout(() => {
+        adsWatched++;
+        localStorage.setItem('adsCount', adsWatched);
+        updateUI();
+        if (adsWatched < maxAds) showAd(); // اگلا Ad دکھائیں
+    }, 5000);
+}
+
+// UI اپڈیٹ کریں
+function updateUI() {
+    document.getElementById("count").textContent = adsWatched;
+    if (adsWatched >= maxAds) {
+        document.getElementById("playBtn").disabled = false;
+        document.getElementById("adContainer").innerHTML = "Video انلاک ہو گیا! 🎉";
+    }
+}
+
+// Video چلائیں
+document.getElementById("playBtn").addEventListener("click", () => {
+    document.getElementById("videoPlayer").style.display = "block";
+    document.getElementById("videoPlayer").play();
+});
+
+// شروع میں Ad چلائیں
+if (adsWatched < maxAds) showAd();
+else updateUI();
+<iframe id="videoPlayer" src="https://www.youtube.com/embed/آپکا-ویڈیو-ID" frameborder="0" allowfullscreen></iframe>
+function showAd() {
+    // آپ کی Link سے Ad Script ڈالیں
+    const adScript = document.createElement("script");
+    adScript.src = "آپکی-Ad-Link";
+    document.getElementById("adContainer").appendChild(adScript);
+}
+
 
